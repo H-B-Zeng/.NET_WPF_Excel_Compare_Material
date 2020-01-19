@@ -60,7 +60,7 @@ namespace CompareExcelItem
         }
 
         /// <summary>
-        /// Compare Excel 檢查Excel前兩個欄位是否一樣
+        /// 使用調整單的品號去，找退料檔裡面出現幾次，並產生免安裝執行檔
         /// </summary>
         private void btnCheckExcelData()
         {
@@ -87,22 +87,22 @@ namespace CompareExcelItem
 
                     //Compare excel data
                     DataTable dt = importFileService.CompareRevisionAndReturn(dtRevision, returnList);
+
                     ResponseMessage response = exportFileService.DataTableToExcelFile(dt,txtFilePath.Text);
+                    
+                    if (response.Success)
+                    {
+                        MessageBox.Show("檢查成功，已將Excel匯出到選擇檔案的路徑", "Info");
+                    }
+                    else
+                    {
+                        MessageBox.Show(response.ErrorMsg, "error");
+                    }
                 }
                 catch (Exception ex)
                 {
-                    throw;
+                    MessageBox.Show(ex.Message, "error");
                 }
-
-                //if (result.isSuccess)
-                //{
-                //    MessageBox.Show("檢查成功", "Info");
-                //}
-                //else
-                //{
-                //    MessageBox.Show(result.errorMsg, "error");
-                //}
-
             }
         }
     }

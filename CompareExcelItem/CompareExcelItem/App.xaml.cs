@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -15,21 +16,42 @@ namespace CompareExcelItem
     /// </summary>
     public partial class App : Application
     {
-        protected override void OnStartup(StartupEventArgs e)
+        private static Assembly OnResolveAssembly(object sender, ResolveEventArgs args)
         {
-            AppDomain.CurrentDomain.AssemblyResolve += new ResolveEventHandler(ResolveAssembly);
-        }
+            Assembly executingAssembly = Assembly.GetExecutingAssembly();
+            var executingAssemblyName = executingAssembly.GetName();
+            var resName = executingAssemblyName.Name + ".resources";
 
-        static Assembly ResolveAssembly(object sender, ResolveEventArgs args)
-        {
-            Assembly parentAssembly = Assembly.GetExecutingAssembly();
-
-            using (Stream stream = parentAssembly.GetManifestResourceStream("CompareExcelItem.EPPlus.dll"))
+            AssemblyName assemblyName = new AssemblyName(args.Name); string path = "";
+            if (resName == assemblyName.Name)
             {
-                byte[] block = new byte[stream.Length];
-                stream.Read(block, 0, block.Length);
-                return Assembly.Load(block);
+                path = executingAssemblyName.Name + ".g.resources"; ;
+            }
+            else
+            {
+                path = assemblyName.Name + ".dll";
+                if (assemblyName.CultureInfo.Equals(CultureInfo.InvariantCulture) == false)
+                {
+                    path = String.Format(@"{0}\{1}", assemblyName.CultureInfo, path);
+                }
+            }
+
+            using (Stream stream = executingAssembly.GetManifestResourceStream(path))
+            {
+                if (stream == null)
+                    return null;
+
+                byte[] assemblyRawBytes = new byte[stream.Length];
+                stream.Read(assemblyRawBytes, 0, assemblyRawBytes.Length);
+                return Assembly.Load(assemblyRawBytes);
             }
         }
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+            AppDomain.CurrentDomain.AssemblyResolve += OnResolveAssembly;
+        }
+
     }
 }

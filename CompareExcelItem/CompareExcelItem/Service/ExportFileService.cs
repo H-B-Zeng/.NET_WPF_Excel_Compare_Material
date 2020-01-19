@@ -24,6 +24,12 @@ namespace CompareExcelItem.Service
 {
     public class ExportFileService
     {
+        /// <summary>
+        /// 將DataTable轉成Excel並匯出
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <param name="ExcelSavePath"></param>
+        /// <returns></returns>
         public ResponseMessage DataTableToExcelFile(DataTable dt, string ExcelSavePath)
         {
             bool SavetSwitch = false;
@@ -100,18 +106,15 @@ namespace CompareExcelItem.Service
                     ep.Dispose();
                     ep = null;
                     result.Success = true;
-                    result.Message = "Export excel Success";
-
                 }
                 else
                 {
                     result.Success = false;
-                    result.Message = "File already exists : " + getExcelSaveFullPath;
+                    result.ErrorMsg = "File already exists : " + getExcelSaveFullPath;
                 }
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
 

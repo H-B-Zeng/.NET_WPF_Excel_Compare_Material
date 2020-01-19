@@ -9,6 +9,6 @@ namespace CompareExcelItem.Model
     public class ResponseMessage
     {
         public bool Success { get; set; }
-        public string Message { get; set; }
+        public string ErrorMsg { get; set; }
     }
 }

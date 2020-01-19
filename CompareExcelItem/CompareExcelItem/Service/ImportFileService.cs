@@ -18,8 +18,8 @@ namespace CompareExcelItem.Service
             ExcelWorksheet sheet = ep.Workbook.Worksheets[sheetIndex + 1];
             int startRowNumber = sheet.Dimension.Start.Row + 1;//起始列編號，從1算起
             int endRowNumber = sheet.Dimension.End.Row;//結束列編號，從1算起
-            int startColumn = 1; //sheet.Dimension.Start.Column;//開始欄編號，從1算起
-            int endColumn = 2; //sheet.Dimension.End.Column;//結束欄編號，
+            //int startColumn = 1; //sheet.Dimension.Start.Column;//開始欄編號，從1算起
+            //int endColumn = 2; //sheet.Dimension.End.Column;//結束欄編號，
 
             //建立欄位名稱
             for (int k = 1; k <= columns; k++)
@@ -46,7 +46,7 @@ namespace CompareExcelItem.Service
             }
             catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
 
             return dt;
@@ -75,7 +75,7 @@ namespace CompareExcelItem.Service
             }
             catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
 
             return dtRevision;
