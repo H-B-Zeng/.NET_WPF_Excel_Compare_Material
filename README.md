@@ -6,7 +6,7 @@
   
 Issue:使用調整單的品號，找退料檔裡面出現幾次，並將比對結果匯出成Excel
 
-Point: 如何將WPF打包成單一執行檔(exe)免安裝，步驟如下
+Memo: 如何將WPF打包成單一執行檔(exe)免安裝，步驟如下
 
 [Step1](#AfterResolveReferences):   *.csproj，在最後面加入這一段CODE，將引用的DLL embedded
 
